@@ -5,29 +5,17 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme {
-	--color-primary-50: #fff7ed;
-	--color-primary-100: #ffecd4;
-	--color-primary-200: #ffd6a9;
-	--color-primary-300: #ffb872;
-	--color-primary-400: #fe8f39;
-	--color-primary-500: #fc6a0b;
-	--color-primary-600: #ed5409;
-	--color-primary-700: #c43d0a;
-	--color-primary-800: #9c3110;
-	--color-primary-900: #7d2b11;
-	--color-primary-950: #441206;
-
-	--color-secondary-50: #edf6ff;
-	--color-secondary-100: #d6eaff;
-	--color-secondary-200: #b6dbff;
-	--color-secondary-300: #83c5ff;
-	--color-secondary-400: #49a5ff;
-	--color-secondary-500: #1f81ff;
-	--color-secondary-600: #0763ff;
-	--color-secondary-700: #0151fa;
-	--color-secondary-800: #0840c5;
-	--color-secondary-900: #0e3b9a;
-	--color-secondary-950: #0e255d;
+	--color-primary-50: oklch(97% 0.014 254.604);
+	--color-primary-100: oklch(93.2% 0.032 255.585);
+	--color-primary-200: oklch(88.2% 0.059 254.128);
+	--color-primary-300: oklch(80.9% 0.105 251.813);
+	--color-primary-400: oklch(70.7% 0.165 254.624);
+	--color-primary-500: oklch(62.3% 0.214 259.815);
+	--color-primary-600: oklch(54.6% 0.245 262.881);
+	--color-primary-700: oklch(48.8% 0.243 264.376);
+	--color-primary-800: oklch(42.4% 0.199 265.638);
+	--color-primary-900: oklch(37.9% 0.146 265.522);
+	--color-primary-950: oklch(28.2% 0.091 267.935);
 
 	--color-gray-50: #fafaf9;
 	--color-gray-100: #f5f5f4;

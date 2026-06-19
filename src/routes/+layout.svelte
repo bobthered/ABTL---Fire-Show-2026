@@ -2,6 +2,7 @@
 	import { untrack, type Snippet } from 'svelte';
 	import { theme } from 'sveltewind/theme';
 	import { default as defaultTheme } from 'sveltewind/themes';
+	import { twMerge } from 'tailwind-merge';
 	import { browser } from '$app/environment';
 	import { Div } from '$lib/components';
 
@@ -22,6 +23,62 @@
 	$effect(() => {
 		untrack(() => {
 			theme.set.theme(defaultTheme);
+
+			const defaults = {
+				background: {
+					base: 'bg-white dark:bg-gray-900',
+					primary: 'bg-primary-500'
+				},
+				duration: 'duration-200',
+				outline: 'outline outline-gray-200 dark:outline-gray-800',
+				padding: {
+					both: 'p-6',
+					input: 'px-6 py-3',
+					x: 'px-6',
+					y: 'py-6'
+				},
+				rounded: 'rounded-2xl',
+				shadow: 'shadow-sm dark:shadow-black',
+				transition: 'transition'
+			};
+
+			theme.update.theme({
+				button: {
+					base: twMerge(
+						defaults.background.primary,
+						defaults.duration,
+						defaults.outline,
+						defaults.padding.input,
+						defaults.rounded,
+						defaults.shadow,
+						defaults.transition,
+						'hover:bg-primary-600 focus:bg-primary-600',
+						'text-white',
+						'font-semibold',
+						'uppercase'
+					)
+				},
+				card: {
+					base: twMerge(
+						defaults.background.base,
+						defaults.duration,
+						defaults.outline,
+						defaults.padding.both,
+						defaults.rounded,
+						defaults.shadow,
+						defaults.transition
+					)
+				},
+				container: {
+					base: 'max-w-7xl w-full mx-auto'
+				},
+				h1: { base: 'font-semibold text-5xl' },
+				h2: { base: 'font-semibold text-4xl' },
+				h3: { base: 'font-semibold text-3xl' },
+				h4: { base: 'font-semibold text-2xl' },
+				h5: { base: 'font-semibold text-xl' },
+				h6: { base: 'font-semibold text-lg' }
+			});
 
 			if (browser) {
 				const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
