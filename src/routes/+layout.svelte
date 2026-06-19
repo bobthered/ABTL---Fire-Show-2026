@@ -27,7 +27,7 @@
 			const defaults = {
 				background: {
 					base: 'bg-white dark:bg-gray-900',
-					primary: 'bg-primary-500'
+					primary: 'bg-primary-600'
 				},
 				duration: 'duration-200',
 				outline: 'outline outline-gray-200 dark:outline-gray-800',
@@ -47,12 +47,11 @@
 					base: twMerge(
 						defaults.background.primary,
 						defaults.duration,
-						defaults.outline,
 						defaults.padding.input,
 						defaults.rounded,
 						defaults.shadow,
 						defaults.transition,
-						'hover:bg-primary-600 focus:bg-primary-600',
+						'hover:bg-primary-700 focus:bg-primary-700',
 						'text-white',
 						'font-semibold',
 						'uppercase'
@@ -66,7 +65,8 @@
 						defaults.padding.both,
 						defaults.rounded,
 						defaults.shadow,
-						defaults.transition
+						defaults.transition,
+						'flex flex-col'
 					)
 				},
 				container: {
@@ -77,7 +77,9 @@
 				h3: { base: 'font-semibold text-3xl' },
 				h4: { base: 'font-semibold text-2xl' },
 				h5: { base: 'font-semibold text-xl' },
-				h6: { base: 'font-semibold text-lg' }
+				h6: { base: 'font-semibold text-lg' },
+				header: { base: twMerge(defaults.background.primary, 'py-1') },
+				p: { base: 'text-gray-500' }
 			});
 
 			if (browser) {
