@@ -3,6 +3,7 @@
 	import { theme } from 'sveltewind/theme';
 	import { default as defaultTheme } from 'sveltewind/themes';
 	import { browser } from '$app/environment';
+	import { Div } from '$lib/components';
 
 	import './layout.css';
 
@@ -23,7 +24,9 @@
 			theme.set.theme(defaultTheme);
 
 			if (browser) {
-				const localStorageDarkMode = localStorage.getItem('darkMode') || 'false';
+				const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const localStorageDarkMode =
+					localStorage.getItem('darkMode') || prefersDarkMode === true ? 'true' : 'false';
 				isDarkMode = localStorageDarkMode === 'true';
 			}
 		});
@@ -51,4 +54,6 @@
 	<title>ABTL - Fire Show - 2026</title>
 </svelte:head>
 
-{@render children()}
+<Div class="flex min-h-screen flex-col [@media(display-mode:standalone)]:min-h-lvh">
+	{@render children()}
+</Div>
