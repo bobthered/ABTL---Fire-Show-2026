@@ -53,7 +53,7 @@
 		</Div>
 		<A
 			class="w-full px-18 py-6 text-center text-3xl md:w-auto md:px-24 md:py-6"
-			href="/choose-product"
+			href="/product-type"
 			variants={['button.base']}>Get Started</A
 		>
 	</Container>

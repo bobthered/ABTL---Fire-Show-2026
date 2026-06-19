@@ -37,7 +37,7 @@
 @layer base {
 	* {
 		scrollbar-width: thin;
-		scrollbar-color: theme(colors.primary.500) transparent;
+		scrollbar-color: theme(colors.primary.600) transparent;
 	}
 
 	*::-webkit-scrollbar {

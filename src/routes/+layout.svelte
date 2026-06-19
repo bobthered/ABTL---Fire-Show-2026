@@ -51,11 +51,30 @@
 						defaults.rounded,
 						defaults.shadow,
 						defaults.transition,
+						'cursor-pointer',
 						'hover:bg-primary-700 focus:bg-primary-700',
 						'text-white',
 						'font-semibold',
 						'uppercase'
-					)
+					),
+					variants: {
+						icon: 'px-0 py-0 size-12',
+						ghost: twMerge(
+							'bg-transparent hover:bg-current/10 focus:bg-current/10 text-current shadow-none'
+						),
+						outline: twMerge(
+							twMerge(defaults.outline, 'outline-primary-600 dark:outline-primary-600'),
+							'background-transparent',
+							'shadow-none',
+							'text-primary-600'
+						),
+						'outline-white': twMerge(
+							twMerge(defaults.outline, 'outline-white dark:outline-white'),
+							'background-transparent',
+							'shadow-none',
+							'text-white'
+						)
+					}
 				},
 				card: {
 					base: twMerge(
@@ -78,8 +97,9 @@
 				h4: { base: 'font-semibold text-2xl' },
 				h5: { base: 'font-semibold text-xl' },
 				h6: { base: 'font-semibold text-lg' },
-				header: { base: twMerge(defaults.background.primary, 'py-1') },
-				p: { base: 'text-gray-500' }
+				header: { base: twMerge(defaults.background.primary, 'py-1 border-0') },
+				p: { base: 'text-gray-500' },
+				productOption: { base: 'col-span-2 grid grid-cols-subgrid py-3' }
 			});
 
 			if (browser) {
