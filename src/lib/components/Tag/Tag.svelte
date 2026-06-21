@@ -21,13 +21,13 @@
 
 	// consts
 	const materialColors = [
-		{ value: 'Blue-(Dark)', hex: '#6789C6' },
-		{ value: 'Blue-(Light)', hex: '#A7CBE2' },
+		{ value: 'Blue (Dark)', hex: '#6789C6' },
+		{ value: 'Blue (Light)', hex: '#A7CBE2' },
 		{ value: 'Brown', hex: '#CF8D52' },
 		{ value: 'Buff', hex: '#EBD896' },
 		{ value: 'Gray', hex: '#BCBEC0' },
-		{ value: 'Green-(Dark)', hex: '#2BB34A' },
-		{ value: 'Green-(Light)', hex: '#83C77C' },
+		{ value: 'Green (Dark)', hex: '#2BB34A' },
+		{ value: 'Green (Light)', hex: '#83C77C' },
 		{ value: 'Ivory', hex: '#F5E3A1' },
 		{ value: 'Lilac', hex: '#D3A6CD' },
 		{ value: 'Manila', hex: '#FFE1B1' },
@@ -37,11 +37,11 @@
 		{ value: 'Salmon', hex: '#FBC09E' },
 		{ value: 'White', hex: '#FFFFFF' },
 		{ value: 'Yellow', hex: '#FFDE3B' },
-		{ value: 'Fluorescent-Green', hex: '#4DB748' },
-		{ value: 'Fluorescent-Orange', hex: '#F47521' },
-		{ value: 'Fluorescent-Pink', hex: '#EC008C' },
-		{ value: 'Fluorescent-Red', hex: '#ED1D24' },
-		{ value: 'Fluorescent-Yellow', hex: '#F2EA01' }
+		{ value: 'Fluorescent Green', hex: '#4DB748' },
+		{ value: 'Fluorescent Orange', hex: '#F47521' },
+		{ value: 'Fluorescent Pink', hex: '#EC008C' },
+		{ value: 'Fluorescent Red', hex: '#ED1D24' },
+		{ value: 'Fluorescent Yellow', hex: '#F2EA01' }
 	];
 
 	// $props

@@ -97,9 +97,21 @@
 				h4: { base: 'font-semibold text-2xl' },
 				h5: { base: 'font-semibold text-xl' },
 				h6: { base: 'font-semibold text-lg' },
-				header: { base: twMerge(defaults.background.primary, 'py-1 border-0') },
+				header: { base: twMerge(defaults.background.primary, 'py-1 border-0 static') },
 				p: { base: 'text-gray-500' },
-				productOption: { base: 'col-span-2 grid grid-cols-subgrid py-3' }
+				productOption: { base: 'col-span-2 grid grid-cols-subgrid py-3' },
+				select: {
+					base: twMerge(
+						defaults.background.base,
+						defaults.duration,
+						defaults.outline,
+						defaults.padding.input,
+						defaults.rounded,
+						defaults.shadow,
+						defaults.transition,
+						'flex flex-col'
+					)
+				}
 			});
 
 			if (browser) {

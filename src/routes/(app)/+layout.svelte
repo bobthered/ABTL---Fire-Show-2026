@@ -1,8 +1,12 @@
 <script lang="ts">
-	import { ArrowRight, ChevronRight, ShoppingCart } from '@lucide/svelte';
-	import type { Snippet } from 'svelte';
+	import { ArrowRight, ChevronRight, Pencil, ShoppingCart, Trash, X } from '@lucide/svelte';
+	import { untrack, type Snippet } from 'svelte';
 	import { page } from '$app/state';
-	import { A, Button, Container, Div, Header, Logo, Span } from '$lib/components';
+	import { A, Button, Card, Container, Div, Header, Logo, P, Span } from '$lib/components';
+	import { session } from '$lib/session/index.svelte';
+	import { clickOutside, portal } from '$lib/attachments';
+	import { dropdown } from '$lib/transitions';
+	import { currency } from '$lib/format';
 
 	// Types
 	type Props = {
@@ -11,6 +15,10 @@
 
 	// $props()
 	let { children }: Props = $props();
+
+	// $state
+	let isCartOpen = $state(false);
+	let topElementOffsetHeight = $state(0);
 
 	// $derived
 	const breadcrumbs = $derived(
@@ -26,20 +34,96 @@
 				return { href, label };
 			})
 	);
+	const cartSubtotal = $derived(
+		session.cart.reduce((total, item) => total + item.quantity * item.unitPrice, 0)
+	);
 </script>
 
 <Div class="relative flex grow flex-col">
-	<Div class="sticky top-0 z-10">
-		<Header class="text-white">
+	<div bind:offsetHeight={topElementOffsetHeight} class="sticky top-0 z-10">
+		<Header>
 			<Container class="flex flex-row items-center justify-between">
 				<Logo class="h-10" fill={{ primary: 'fill-white', secondary: 'fill-white' }} />
-				<Div>
-					<Button>
+				<Div
+					{@attach clickOutside(() => {
+						isCartOpen = false;
+					})}
+					class="relative z-20"
+				>
+					<Button onclick={() => (isCartOpen = !isCartOpen)}>
 						<Div class="flex items-center gap-4">
 							<ShoppingCart />
-							<Span>Cart (0)</Span>
+							<Span>Cart ({session.cart.length})</Span>
 						</Div>
 					</Button>
+					<Card
+						class="absolute right-0 z-999 mt-1 flex w-[calc(100vw_-_3rem)] max-w-[calc(100vw_-_3rem)] flex-col divide-y divide-gray-200 lg:w-auto dark:divide-gray-800"
+						isVisible={isCartOpen}
+						transition={[dropdown]}
+					>
+						<Div class="flex items-center justify-between gap-4 pb-3">
+							<Span class="text-xl font-semibold whitespace-nowrap uppercase">Your cart</Span>
+						</Div>
+						{#if session.cart.length === 0}
+							<P class="pt-3 text-xs whitespace-nowrap">Your cart is empty</P>
+						{:else}
+							<Div class="flex flex-col">
+								<Div
+									class="-mx-6 grid max-h-[20rem] grid-cols-[1fr_fit-content(0px)] divide-y divide-gray-200 overflow-auto px-6 dark:divide-gray-800"
+								>
+									{#each session.cart as item, itemIndex}
+										<Div class="col-span-2 grid grid-cols-subgrid py-3">
+											<Div class="flex flex-col space-y-4">
+												<Span class="font-semibold">{item.type}</Span>
+												<P class="min-w-50 text-xs">{item.description}</P>
+												<P class="font-semibold text-current"
+													>Qty: {item.quantity.toLocaleString()}</P
+												>
+											</Div>
+											<Div class="flex flex-col justify-between gap-4">
+												<Card class="flex-row divide-x divide-gray-200 p-0 dark:divide-gray-800">
+													<Button
+														class="size-10 rounded-r-none text-red-600 hover:bg-red-600/10 focus:bg-red-600/10 dark:text-red-600"
+														onclick={() => {
+															session.remove(itemIndex);
+														}}
+														variants={['icon', 'ghost']}
+													>
+														<Trash class="size-4" />
+													</Button>
+													<Button class="size-10 rounded-l-none" variants={['icon', 'ghost']}>
+														<Pencil class="size-4" />
+													</Button>
+												</Card>
+												<Span class="text-right font-semibold">
+													{currency(item.unitPrice * item.quantity)}
+												</Span>
+											</Div>
+										</Div>
+									{/each}
+								</Div>
+							</Div>
+							<Div class="flex flex-col space-y-2 py-3">
+								<Div class="flex items-center justify-between gap-4">
+									<Span class="whitespace-nowrap"
+										>Subtotal ({session.cart.length} item{session.cart.length === 1
+											? ''
+											: 's'})</Span
+									>
+									<Span class="text-right font-semibold">
+										{currency(cartSubtotal)}
+									</Span>
+								</Div>
+								<P class="text-xs">Shipping, handling and taxes calculated at checkout</P>
+							</Div>
+							<Div class="flex flex-col space-y-2 pt-3">
+								<A class="text-center" href="/cart" variants={['button.base']}>Checkout</A>
+								<Button onclick={() => (isCartOpen = false)} variants={['ghost']}>
+									Continue Shopping
+								</Button>
+							</Div>
+						{/if}
+					</Card>
 				</Div>
 			</Container>
 		</Header>
@@ -59,8 +143,11 @@
 				{/each}
 			</Container>
 		</Header>
-	</Div>
-	<Div class="flex grow flex-col justify-center py-6">
+	</div>
+	<Div
+		class="flex grow flex-col justify-center"
+		style="--topElementOffsetHeight: {topElementOffsetHeight}px;"
+	>
 		{@render children()}
 	</Div>
 </Div>
