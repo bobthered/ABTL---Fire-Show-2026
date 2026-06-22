@@ -5,18 +5,28 @@
 	import { A, Button, Card, Container, Div, Header, Logo, P, Span } from '$lib/components';
 	import { session } from '$lib/session/index.svelte';
 	import { clickOutside, portal } from '$lib/attachments';
-	import { dropdown } from '$lib/transitions';
+	import { dropdown, fade } from '$lib/transitions';
 	import { currency } from '$lib/format';
+	import { twMerge } from 'tailwind-merge';
 
 	// Types
 	type Props = {
 		children: Snippet<[]>;
 	};
 
+	// consts
+	const updateCartButtonRect = () => {
+		if (cartButtonElement) {
+			cartButtonRect = cartButtonElement.getBoundingClientRect();
+		}
+	};
+
 	// $props()
 	let { children }: Props = $props();
 
 	// $state
+	let cartButtonElement: HTMLButtonElement | null = $state(null);
+	let cartButtonRect: DOMRect | null = $state(null);
 	let isCartOpen = $state(false);
 	let topElementOffsetHeight = $state(0);
 
@@ -37,29 +47,37 @@
 	const cartSubtotal = $derived(
 		session.cart.reduce((total, item) => total + item.quantity * item.unitPrice, 0)
 	);
+
+	// $effects
+	$effect(() => {
+		untrack(() => {
+			updateCartButtonRect();
+		});
+	});
 </script>
 
+<svelte:window onresize={updateCartButtonRect} />
 <Div class="relative flex grow flex-col">
 	<div bind:offsetHeight={topElementOffsetHeight} class="sticky top-0 z-10">
 		<Header>
 			<Container class="flex flex-row items-center justify-between">
 				<Logo class="h-10" fill={{ primary: 'fill-white', secondary: 'fill-white' }} />
-				<Div
-					{@attach clickOutside(() => {
-						isCartOpen = false;
-					})}
-					class="relative z-20"
-				>
-					<Button onclick={() => (isCartOpen = !isCartOpen)}>
+				<Div class="relative z-20">
+					<Button bind:element={cartButtonElement} onclick={() => (isCartOpen = !isCartOpen)}>
 						<Div class="flex items-center gap-4">
 							<ShoppingCart />
 							<Span>Cart ({session.cart.length})</Span>
 						</Div>
 					</Button>
 					<Card
-						class="absolute right-0 z-999 mt-1 flex w-[calc(100vw_-_3rem)] max-w-[calc(100vw_-_3rem)] flex-col divide-y divide-gray-200 lg:w-auto dark:divide-gray-800"
+						{@attach portal}
+						class="fixed top-0 z-999 flex w-[calc(100vw_-_3rem)] max-w-[calc(100vw_-_3rem)] -translate-x-full flex-col divide-y divide-gray-200 lg:w-auto dark:divide-gray-800"
 						isVisible={isCartOpen}
 						transition={[dropdown]}
+						style="left: {(cartButtonRect?.left ?? 0) +
+							(cartButtonRect?.width ?? 0)}px; margin-top:{(cartButtonRect?.top ?? 0) +
+							(cartButtonRect?.height ?? 0) +
+							4}px"
 					>
 						<Div class="flex items-center justify-between gap-4 pb-3">
 							<Span class="text-xl font-semibold whitespace-nowrap uppercase">Your cart</Span>
@@ -117,7 +135,12 @@
 								<P class="text-xs">Shipping, handling and taxes calculated at checkout</P>
 							</Div>
 							<Div class="flex flex-col space-y-2 pt-3">
-								<A class="text-center" href="/cart" variants={['button.base']}>Checkout</A>
+								<A
+									class="text-center"
+									href="/cart"
+									onclick={() => (isCartOpen = false)}
+									variants={['button.base']}>Checkout</A
+								>
 								<Button onclick={() => (isCartOpen = false)} variants={['ghost']}>
 									Continue Shopping
 								</Button>
@@ -145,9 +168,16 @@
 		</Header>
 	</div>
 	<Div
-		class="flex grow flex-col justify-center"
+		class="relative flex grow flex-col justify-center"
 		style="--topElementOffsetHeight: {topElementOffsetHeight}px;"
 	>
 		{@render children()}
+		<Div
+			class={twMerge(
+				'absolute top-0 left-0 h-full w-full backdrop-blur transition duration-200',
+				isCartOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
+			)}
+			onclick={() => (isCartOpen = false)}
+		/>
 	</Div>
 </Div>

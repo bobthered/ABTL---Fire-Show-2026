@@ -62,9 +62,8 @@
 	// $state
 
 	// $derived
-	const classes = $derived(theme.resolve('tag', variants, className));
 	const eyeletFill = $derived(eyelet? '#939598':'none')
-	const inkFill = $derived(printQuality === 'economy' ? '#404040' : 'black')
+	const inkFill = $derived(printQuality === 'Economy' ? '#404040' : 'black')
 	const materialFill = $derived(
 		materialColors.find((obj) => obj.value === materialColor)?.hex ?? '#FFFFFF'
 	);
@@ -78,7 +77,7 @@
 	<svg
 		{...restProps}
 		bind:this={element}
-		class={classes}
+		class={className}
 		transition:transitionFn={transitionOptions}
 		viewBox="0 0 172 343"
 	>

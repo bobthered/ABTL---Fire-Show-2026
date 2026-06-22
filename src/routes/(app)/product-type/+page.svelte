@@ -4,18 +4,18 @@
 
 	// consts
 	const productTypes = [
-		{ href: '/product-type/tags', title: 'Tags', text: 'Inspection, Service and Identification' },
-		{ href: '/product-type/labels', title: 'Labels', text: 'Sprinkler, E-Light, Service and More' },
 		{ href: '/product-type/collars', title: 'Collars', text: 'Three Different Sizes' },
 		{
 			href: '/product-type/fasteners-attachments',
 			title: 'Fasteners / Attachments',
 			text: 'Diamond clips, Secur-A-Ties, Tamper Seals and Loose Wire'
-		}
+		},
+		{ href: '/product-type/labels', title: 'Labels', text: 'Sprinkler, E-Light, Service and More' },
+		{ href: '/product-type/tags', title: 'Tags', text: 'Inspection, Service and Identification' }
 	];
 </script>
 
-<Container class="flex flex-col space-y-6">
+<Container class="flex flex-col space-y-6 py-6">
 	<Div class="flex flex-col space-y-2">
 		<H1>Product Type</H1>
 		<Div class="h-1 w-12 bg-primary-600" />

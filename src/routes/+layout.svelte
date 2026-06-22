@@ -43,6 +43,9 @@
 			};
 
 			theme.update.theme({
+				a: {
+					base: 'no-underline'
+				},
 				button: {
 					base: twMerge(
 						defaults.background.primary,
@@ -100,6 +103,7 @@
 				header: { base: twMerge(defaults.background.primary, 'py-1 border-0 static') },
 				p: { base: 'text-gray-500' },
 				productOption: { base: 'col-span-2 grid grid-cols-subgrid py-3' },
+				routeHeading: { base: 'flex flex-col space-y-2' },
 				select: {
 					base: twMerge(
 						defaults.background.base,
@@ -109,7 +113,14 @@
 						defaults.rounded,
 						defaults.shadow,
 						defaults.transition,
-						'flex flex-col'
+						'appearance-none'
+					)
+				},
+				td: { base: twMerge(defaults.padding.input) },
+				th: {
+					base: twMerge(
+						defaults.padding.input,
+						'text-sm lg:text-base border-b border-gray-200 dark:border-gray-800'
 					)
 				}
 			});
