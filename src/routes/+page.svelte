@@ -1,8 +1,7 @@
 <script lang="ts">
+	import { Button, Card, Container, Div, Field, Form, H1, Input, P, Span } from '$lib/components';
 	import { CircleGauge, ShieldCheck, SlidersHorizontal } from '@lucide/svelte';
-	import { A, Container, Div, H1, Logo, P, Span } from '$lib/components';
-	import { session } from '$lib/session/index.svelte';
-	import { untrack } from 'svelte';
+	import { register } from './data.remote';
 
 	// const
 	const icons = [
@@ -10,51 +9,44 @@
 		{ Icon: SlidersHorizontal, title: 'Flexible', text: 'Configure products to fit needs' },
 		{ Icon: ShieldCheck, title: 'Accurate', text: 'Reliable pricing you can trust' }
 	];
-
-	// $effects
-	$effect(() => {
-		untrack(() => {
-			session.reset();
-		});
-	});
 </script>
 
-<Div class="relative flex grow flex-col">
-	<Div
-		class="absolute top-0 right-0 hidden h-full w-[40%] items-center justify-center bg-gray-100 md:flex"
-	>
-		<Logo
-			class="w-50"
-			fill={{
-				primary: 'fill-[#8A181D]',
-				secondary: 'fill-[#282D5B]'
-			}}
-		/>
+<Container class="flex grow flex-col items-center justify-center py-3">
+	<Div class="flex flex-col space-y-6 lg:flex-row lg:gap-4 lg:space-y-0">
+		<Div class="flex flex-col space-y-6 lg:w-full lg:justify-center">
+			<H1>Be the first to know!</H1>
+			<P class="lg:max-w-md"
+				>Our online quoting is quick and easy to build accurate product quotes. Configure, customize
+				and price with confidence.</P
+			>
+
+			<Div class="grid grid-cols-3 divide-x divide-gray-200 md:max-w-md dark:divide-gray-800">
+				{#each icons as { Icon, title, text }}
+					<Div
+						class="row-span-3 grid grid-cols-1 grid-rows-subgrid place-items-center gap-2 px-6 first-of-type:pl-0 last-of-type:pr-0"
+					>
+						<Icon class="size-12 text-primary-600" />
+						<Span class="leading-[1em] font-semibold uppercase">{title}</Span>
+						<P class="text-center text-xs text-gray-500">{text}</P>
+					</Div>
+				{/each}
+			</Div>
+		</Div>
+		<Card class="space-y-6">
+			<Span class="text-2xl font-semibold">Be the first to know when the lauch happens!</Span>
+			<P class="text-sm">Join the early access list and we'll reach out as soon as it is ready.</P>
+			<Span class="text-xl font-semibold text-primary-600"
+				>Receive 10% off for your feedback once we launch!</Span
+			>
+			<Form {...register} class="space-y-6">
+				<Field label="Full Name">
+					<Input {...register.fields.name.as('text')} />
+				</Field>
+				<Field label="Email">
+					<Input {...register.fields.email.as('email')} />
+				</Field>
+				<Button class="w-full whitespace-nowrap" type="submit">Join the early access list</Button>
+			</Form>
+		</Card>
 	</Div>
-	<Container class="flex grow flex-col items-start justify-center space-y-12">
-		<Div class="flex flex-col space-y-4">
-			<H1 class="text-6xl">Welcome!</H1>
-			<Div class="h-1 w-18 bg-primary-600" />
-		</Div>
-		<P class="md:max-w-sm">
-			Our online quoting is quick and easy to build accurate product quotes. Configure, customize
-			and price with confidence.
-		</P>
-		<Div class="grid grid-cols-3 divide-x divide-gray-200 md:max-w-md dark:divide-gray-800">
-			{#each icons as { Icon, title, text }}
-				<Div
-					class="row-span-3 grid grid-cols-1 grid-rows-subgrid place-items-center gap-2 px-6 first-of-type:pl-0 last-of-type:pr-0"
-				>
-					<Icon class="size-12 text-primary-600" />
-					<Span class="leading-[1em] font-semibold uppercase">{title}</Span>
-					<P class="text-center text-xs text-gray-500">{text}</P>
-				</Div>
-			{/each}
-		</Div>
-		<A
-			class="w-full px-18 py-6 text-center text-3xl md:w-auto md:px-24 md:py-6"
-			href="/product-type"
-			variants={['button.base']}>Get Started</A
-		>
-	</Container>
-</Div>
+</Container>

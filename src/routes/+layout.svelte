@@ -94,6 +94,7 @@
 				container: {
 					base: 'max-w-7xl w-full mx-auto'
 				},
+				field: { base: 'flex flex-col' },
 				h1: { base: 'font-semibold text-5xl' },
 				h2: { base: 'font-semibold text-4xl' },
 				h3: { base: 'font-semibold text-3xl' },
@@ -101,6 +102,18 @@
 				h5: { base: 'font-semibold text-xl' },
 				h6: { base: 'font-semibold text-lg' },
 				header: { base: twMerge(defaults.background.primary, 'py-1 border-0 static') },
+				input: {
+					base: twMerge(
+						defaults.background.base,
+						defaults.duration,
+						defaults.outline,
+						defaults.padding.input,
+						defaults.rounded,
+						defaults.shadow,
+						defaults.transition,
+						'appearance-none'
+					)
+				},
 				p: { base: 'text-gray-500' },
 				productOption: { base: 'col-span-2 grid grid-cols-subgrid py-3' },
 				routeHeading: { base: 'flex flex-col space-y-2' },
