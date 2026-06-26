@@ -1,6 +1,19 @@
 <script lang="ts">
-	import { Card, Container, Table, Tbody, Td, Th, Thead, Tr } from '$lib/components';
-	import { getRegistrations } from '../data.remote';
+	import {
+		Button,
+		Card,
+		Container,
+		Form,
+		Input,
+		Table,
+		Tbody,
+		Td,
+		Th,
+		Thead,
+		Tr
+	} from '$lib/components';
+	import { Trash } from '@lucide/svelte';
+	import { deleteRegistration, getRegistrations } from '../data.remote';
 
 	let registrations = getRegistrations();
 </script>
@@ -10,6 +23,7 @@
 		<Table>
 			<Thead>
 				<Tr>
+					<Th />
 					<Th>Name</Th>
 					<Th>Email</Th>
 					<Th>Created At</Th>
@@ -17,8 +31,22 @@
 			</Thead>
 			<Tbody>
 				{#if registrations.current}
-					{#each registrations.current as registration}
+					{#each registrations.current as registration, index}
+						{@const deleteRow = deleteRegistration.for(index)}
 						<Tr>
+							<Td class="px-3">
+								<Form {...deleteRow}>
+									<Input name="_id" type="hidden" value={registration._id} />
+									<Input name="index" type="hidden" value={index} />
+									<Button
+										class="text-primary-600 hover:bg-primary-600/10 focus:bg-primary-600/10 dark:text-primary-600 dark:hover:bg-primary-600/10 dark:focus:bg-primary-600/10"
+										type="submit"
+										variants={['icon', 'ghost']}
+									>
+										<Trash />
+									</Button>
+								</Form>
+							</Td>
 							<Td class="whitespace-nowrap">{registration.name}</Td>
 							<Td class="whitespace-nowrap">{registration.email}</Td>
 							<Td class="whitespace-nowrap"
