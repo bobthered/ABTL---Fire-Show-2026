@@ -6,7 +6,7 @@
 </script>
 
 <Container class="flex grow flex-col items-center justify-center py-3">
-	<Card class="p-0">
+	<Card class="max-w-full overflow-auto p-0">
 		<Table>
 			<Thead>
 				<Tr>
@@ -19,9 +19,9 @@
 				{#if registrations.current}
 					{#each registrations.current as registration}
 						<Tr>
-							<Td>{registration.name}</Td>
-							<Td>{registration.email}</Td>
-							<Td
+							<Td class="whitespace-nowrap">{registration.name}</Td>
+							<Td class="whitespace-nowrap">{registration.email}</Td>
+							<Td class="whitespace-nowrap"
 								>{registration.createdAt.toLocaleString('en-US', {
 									dateStyle: 'short',
 									timeStyle: 'short'
