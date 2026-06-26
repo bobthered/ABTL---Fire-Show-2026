@@ -27,6 +27,9 @@ export const deleteRegistration = form(
 		if (registrations) registrations = registrations.filter((_, i) => i !== +index);
 		await Registration.deleteOne({ _id: new ObjectId(_id) });
 
+		for (const listener of listeners) listener('');
+		listeners.clear();
+
 		return { success: true };
 	}
 );
