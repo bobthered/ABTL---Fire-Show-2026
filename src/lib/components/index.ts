@@ -6,4 +6,5 @@ export { default as Logo } from './Logo/Logo.svelte';
 export { default as ProductOption } from './ProductOption/ProductOption.svelte';
 export { default as Radio } from './Radio/Radio.svelte';
 export { default as RouteHeading } from './RouteHeading/RouteHeading.svelte';
+export { default as Spinner } from './Spinner/Spinner.svelte';
 export { default as UnderlineH1 } from './UnderlineH1/UnderlineH1.svelte';
