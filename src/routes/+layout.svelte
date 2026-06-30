@@ -30,13 +30,14 @@
 					primary: 'bg-primary-600'
 				},
 				duration: 'duration-200',
-				outline: 'outline outline-gray-200 dark:outline-gray-800',
+				outline: 'outline-2 outline-transparent focus:outline-primary-600/30',
 				padding: {
 					both: 'p-6',
 					input: 'px-6 py-3',
 					x: 'px-6',
 					y: 'py-6'
 				},
+				ring: 'inset-ring inset-ring-gray-200 dark:inset-ring-gray-800 focus:inset-ring-primary-600',
 				rounded: 'rounded-2xl',
 				shadow: 'shadow-sm dark:shadow-black',
 				transition: 'transition'
@@ -50,7 +51,9 @@
 					base: twMerge(
 						defaults.background.primary,
 						defaults.duration,
+						defaults.outline,
 						defaults.padding.input,
+						defaults.ring,
 						defaults.rounded,
 						defaults.shadow,
 						defaults.transition,
@@ -63,7 +66,7 @@
 					variants: {
 						icon: 'px-0 py-0 size-12',
 						ghost: twMerge(
-							'bg-transparent hover:bg-current/10 focus:bg-current/10 text-current shadow-none'
+							'bg-transparent hover:bg-current/10 focus:bg-current/10 text-current shadow-none inset-ring-transparent dark:inset-ring-transparent'
 						),
 						outline: twMerge(
 							twMerge(defaults.outline, 'outline-primary-600 dark:outline-primary-600'),
@@ -85,6 +88,7 @@
 						defaults.duration,
 						defaults.outline,
 						defaults.padding.both,
+						defaults.ring,
 						defaults.rounded,
 						defaults.shadow,
 						defaults.transition,
@@ -108,6 +112,7 @@
 						defaults.duration,
 						defaults.outline,
 						defaults.padding.input,
+						defaults.ring,
 						defaults.rounded,
 						defaults.shadow,
 						defaults.transition,
