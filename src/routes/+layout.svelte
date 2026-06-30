@@ -7,6 +7,7 @@
 	import { Div } from '$lib/components';
 
 	import './layout.css';
+	import { staggerReveal } from '$lib/attachments';
 
 	// Types
 	type Props = {
@@ -134,6 +135,7 @@
 						'appearance-none'
 					)
 				},
+				spinner: { base: 'size-6' },
 				td: { base: twMerge(defaults.padding.input) },
 				th: {
 					base: twMerge(
@@ -174,6 +176,9 @@
 	<title>ABTL - Fire Show - 2026</title>
 </svelte:head>
 
-<Div class="flex min-h-screen flex-col [@media(display-mode:standalone)]:min-h-lvh">
+<Div
+	{@attach staggerReveal}
+	class="flex min-h-screen flex-col [@media(display-mode:standalone)]:min-h-lvh"
+>
 	{@render children()}
 </Div>

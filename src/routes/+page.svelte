@@ -1,9 +1,22 @@
 <script lang="ts">
-	import { Button, Card, Container, Div, Field, Form, H1, Input, P, Span } from '$lib/components';
+	import {
+		Button,
+		Card,
+		Container,
+		Div,
+		Field,
+		Form,
+		H1,
+		Input,
+		P,
+		Span,
+		Spinner
+	} from '$lib/components';
 	import { CircleGauge, ShieldCheck, SlidersHorizontal } from '@lucide/svelte';
 	import { register } from './data.remote';
 	import { trapFocus } from 'sveltewind/attachments';
 	import { slide } from '$lib/transitions';
+	import { staggerReveal } from '$lib/attachments';
 
 	// const
 	const icons = [
@@ -11,6 +24,9 @@
 		{ Icon: SlidersHorizontal, title: 'Flexible', text: 'Configure products to fit needs' },
 		{ Icon: ShieldCheck, title: 'Accurate', text: 'Reliable pricing you can trust' }
 	];
+
+	// $state
+	let isFormSubmitted = $state(false);
 </script>
 
 <Container class="flex grow flex-col items-center justify-center py-3">
@@ -34,13 +50,21 @@
 				{/each}
 			</Div>
 		</Div>
-		<Card class="space-y-6">
+		<Card class="space-y-6" data-stagger>
 			<Span class="text-2xl font-semibold">Be the first to know when the lauch happens!</Span>
 			<P class="text-sm">Join the early access list and we'll reach out as soon as it is ready.</P>
 			<Span class="text-xl font-semibold text-primary-600">
 				Receive 10% off for your feedback once we launch!
 			</Span>
-			<Form {@attach trapFocus} {...register} class="space-y-6">
+			<Form
+				{@attach trapFocus}
+				{...register.enhance(async (form) => {
+					isFormSubmitted = true;
+					await form.submit();
+					isFormSubmitted = false;
+				})}
+				class="space-y-6"
+			>
 				<Field label="Full Name">
 					<Input {...register.fields.name.as('text')} required={true} />
 				</Field>
@@ -56,7 +80,15 @@
 						<P class="text-primary-600">{issue.message}</P>
 					{/each}
 				</Div>
-				<Button class="w-full whitespace-nowrap" type="submit">Join the early access list</Button>
+				<Button class="w-full whitespace-nowrap" type="submit">
+					{#if !isFormSubmitted}
+						Join the early access list
+					{:else}
+						<Div class="flex items-center justify-center">
+							<Spinner />
+						</Div>
+					{/if}
+				</Button>
 			</Form>
 		</Card>
 	</Div>
