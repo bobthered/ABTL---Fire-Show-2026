@@ -178,7 +178,7 @@
 
 <Div
 	{@attach staggerReveal}
-	class="flex min-h-screen flex-col [@media(display-mode:standalone)]:min-h-lvh"
+	class="flex min-h-screen flex-col pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] [@media(display-mode:standalone)]:min-h-lvh"
 >
 	{@render children()}
 </Div>
