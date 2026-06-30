@@ -2,6 +2,8 @@
 	import { Button, Card, Container, Div, Field, Form, H1, Input, P, Span } from '$lib/components';
 	import { CircleGauge, ShieldCheck, SlidersHorizontal } from '@lucide/svelte';
 	import { register } from './data.remote';
+	import { trapFocus } from 'sveltewind/attachments';
+	import { slide } from '$lib/transitions';
 
 	// const
 	const icons = [
@@ -35,16 +37,25 @@
 		<Card class="space-y-6">
 			<Span class="text-2xl font-semibold">Be the first to know when the lauch happens!</Span>
 			<P class="text-sm">Join the early access list and we'll reach out as soon as it is ready.</P>
-			<Span class="text-xl font-semibold text-primary-600"
-				>Receive 10% off for your feedback once we launch!</Span
-			>
-			<Form {...register} class="space-y-6">
+			<Span class="text-xl font-semibold text-primary-600">
+				Receive 10% off for your feedback once we launch!
+			</Span>
+			<Form {@attach trapFocus} {...register} class="space-y-6">
 				<Field label="Full Name">
-					<Input {...register.fields.name.as('text')} />
+					<Input {...register.fields.name.as('text')} required={true} />
 				</Field>
 				<Field label="Email">
-					<Input {...register.fields.email.as('email')} />
+					<Input {...register.fields.email.as('email')} required={true} />
 				</Field>
+				<Div
+					class="flex flex-col"
+					isVisible={(register.fields.allIssues() ?? []).length > 0}
+					transition={[slide, { duration: 200 }]}
+				>
+					{#each register.fields.allIssues() as issue}
+						<P class="text-primary-600">{issue.message}</P>
+					{/each}
+				</Div>
 				<Button class="w-full whitespace-nowrap" type="submit">Join the early access list</Button>
 			</Form>
 		</Card>

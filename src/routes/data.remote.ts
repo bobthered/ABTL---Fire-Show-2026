@@ -2,7 +2,7 @@ import * as v from 'valibot';
 import { form, query } from '$app/server';
 import { connect } from '$lib/mongoose';
 import { Registration } from '$lib/mongoose/models';
-import { redirect } from '@sveltejs/kit';
+import { invalid, redirect } from '@sveltejs/kit';
 import { ObjectId } from 'mongodb';
 
 const listeners: Set<(value: unknown) => void> = new Set();
@@ -48,10 +48,15 @@ export const register = form(
 		email: v.pipe(v.string(), v.nonEmpty()),
 		name: v.pipe(v.string(), v.nonEmpty())
 	}),
-	async ({ email, name }) => {
+	async ({ email, name }, issue) => {
 		await connect();
 
-		const document = await Registration.create({ email, name });
+		let document: any;
+		try {
+			document = await Registration.create({ email, name });
+		} catch (error) {
+			throw invalid(issue.email('Email already exists'));
+		}
 		const registration = document.toObject();
 		if (registrations) registrations.push({ ...registration, _id: String(registration._id) });
 		for (const listener of listeners) listener('');

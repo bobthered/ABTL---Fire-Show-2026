@@ -37,7 +37,7 @@
 							<Td class="px-3">
 								<Form {...deleteRow}>
 									<Input name="_id" type="hidden" value={registration._id} />
-									<Input name="index" type="hidden" value={index} />
+									<Input name="index" type="hidden" value={index.toString()} />
 									<Button
 										class="text-primary-600 hover:bg-primary-600/10 focus:bg-primary-600/10 dark:text-primary-600 dark:hover:bg-primary-600/10 dark:focus:bg-primary-600/10"
 										type="submit"
