@@ -33,14 +33,13 @@ export const staggerReveal = (
 		distance = 24,
 		easing = 'cubic-bezier(.22,1,.36,1)',
 		once = true,
-		rootMargin = '0px 0px -10% 0px',
+		rootMargin = '0px 0px 0px 0px',
 		selector = DEFAULT_SELECTOR,
-		threshold = 0.15
+		threshold = 0
 	}: StaggerRevealOptions = {}
 ) => {
-	let staggerIndex = 0;
-
 	const elements = [...node.querySelectorAll<HTMLElement>(selector)];
+	const revealed = new Set<HTMLElement>();
 
 	const hideElements = () => {
 		for (const el of elements) {
@@ -50,7 +49,7 @@ export const staggerReveal = (
 		}
 	};
 
-	const animateElement = (el: HTMLElement) => {
+	const animateElement = (el: HTMLElement, i: number) => {
 		el.animate(
 			[
 				{
@@ -63,7 +62,7 @@ export const staggerReveal = (
 				}
 			],
 			{
-				delay: staggerIndex++ * delay,
+				delay: i * delay, // 👈 LOCAL stagger only
 				duration,
 				easing,
 				fill: 'forwards'
@@ -73,15 +72,29 @@ export const staggerReveal = (
 
 	const observer = new IntersectionObserver(
 		(entries) => {
+			// 1. collect visible + not yet revealed
+			const visible: HTMLElement[] = [];
+
 			for (const entry of entries) {
 				if (!entry.isIntersecting) continue;
 
 				const el = entry.target as HTMLElement;
 
-				animateElement(el);
+				if (once && revealed.has(el)) continue;
 
-				if (once) observer.unobserve(el);
+				visible.push(el);
 			}
+
+			if (visible.length === 0) return;
+
+			// 2. sort top → bottom (important for natural feel)
+			visible.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+
+			// 3. reset stagger PER batch
+			visible.forEach((el, i) => {
+				animateElement(el, i);
+				revealed.add(el);
+			});
 		},
 		{
 			threshold,
@@ -90,7 +103,9 @@ export const staggerReveal = (
 	);
 
 	const observe = () => {
-		for (const el of elements) observer.observe(el);
+		for (const el of elements) {
+			observer.observe(el);
+		}
 	};
 
 	const destroy = () => {
